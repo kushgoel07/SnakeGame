@@ -55,19 +55,11 @@ public class GamePanel extends JPanel implements ActionListener  {
         timer.start();
     }
 
-    // updates the screen
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        draw(g);
-    }
-
+   
     // draws the apple, draws the new body parts of the snake including color, score
     public void draw(Graphics g) {
 
         if (running) {
-
-            g.setColor(Color.green.brighter().brighter());// this draws the apple
-            g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
 
             for (int i = 0; i < (screenHeight / UNIT_SIZE); i++) { // for gridlines
                 g.drawLine(i * UNIT_SIZE, 0, i * UNIT_SIZE, screenHeight);
@@ -75,15 +67,19 @@ public class GamePanel extends JPanel implements ActionListener  {
             }
 
 
+            g.setColor(Color.green.brighter().brighter());// this draws the apple
+            g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
+
+
             switch (randomColor) { // changes the skin of the snake depending on random number
                 case 0:
                     for (int i = 0; i < initialSize; i++) { // normal green snake
                         if (i == 0) {
                             g.setColor(Color.green.darker());
-                            g.fillRect(x_cord[i], y_cord[i], UNIT_SIZE, UNIT_SIZE);
+                            g.fillOval(x_cord[i], y_cord[i], UNIT_SIZE, UNIT_SIZE);
                         } else {
                             g.setColor(new Color(77, 232, 26));
-                            g.fillRect(x_cord[i], y_cord[i], UNIT_SIZE, UNIT_SIZE);
+                            g.fillOval(x_cord[i], y_cord[i], UNIT_SIZE, UNIT_SIZE);
                         }
                     }
                     break;
@@ -91,16 +87,16 @@ public class GamePanel extends JPanel implements ActionListener  {
                     int j = 0; // red black and yellow snake
                     while (j < initialSize) {
                         g.setColor(Color.red);
-                        g.fillRect(x_cord[j], y_cord[j], UNIT_SIZE, UNIT_SIZE);
+                        g.fillOval(x_cord[j], y_cord[j], UNIT_SIZE, UNIT_SIZE);
                         j++;
                         g.setColor(Color.black);
-                        g.fillRect(x_cord[j], y_cord[j], UNIT_SIZE, UNIT_SIZE);
+                        g.fillOval(x_cord[j], y_cord[j], UNIT_SIZE, UNIT_SIZE);
                         j++;
                         g.setColor(Color.yellow);
-                        g.fillRect(x_cord[j], y_cord[j], UNIT_SIZE, UNIT_SIZE);
+                        g.fillOval(x_cord[j], y_cord[j], UNIT_SIZE, UNIT_SIZE);
                         j++;
                         g.setColor(Color.black);
-                        g.fillRect(x_cord[j], y_cord[j], UNIT_SIZE, UNIT_SIZE);
+                        g.fillOval(x_cord[j], y_cord[j], UNIT_SIZE, UNIT_SIZE);
                         j++;
                     }
                     break;
@@ -114,7 +110,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             float luminance = 0.9f;
                             Color color = Color.getHSBColor(hue, saturation, luminance);
                             g.setColor(color);
-                            g.fillRect(x_cord[i], y_cord[i], UNIT_SIZE, UNIT_SIZE);
+                            g.fillOval(x_cord[i], y_cord[i], UNIT_SIZE, UNIT_SIZE);
                         } else {
                             float hue = random.nextFloat();
                             // Saturation between 0.1 and 0.3
@@ -122,7 +118,7 @@ public class GamePanel extends JPanel implements ActionListener  {
                             float luminance = 0.9f;
                             Color color = Color.getHSBColor(hue, saturation, luminance);
                             g.setColor(color);
-                            g.fillRect(x_cord[i], y_cord[i], UNIT_SIZE, UNIT_SIZE);
+                            g.fillOval(x_cord[i], y_cord[i], UNIT_SIZE, UNIT_SIZE);
                         }
                     }
                     break;
@@ -137,6 +133,13 @@ public class GamePanel extends JPanel implements ActionListener  {
             endGame(g);
         }
     }
+
+     // updates the screen
+     public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        draw(g);
+    }
+
 
     // generates the coordinate for the next apple
     public void createNewApple() {
@@ -212,7 +215,7 @@ public class GamePanel extends JPanel implements ActionListener  {
         //Game Over Text
         running = false;
         g.setColor(Color.red);
-        g.setFont(new Font("Times New Roman", Font.ITALIC + Font.BOLD, 75));
+        g.setFont(new Font("Times New Roman", Font.BOLD, 75));
         FontMetrics metrics = getFontMetrics(g.getFont());
         g.drawString("Game Over", (screenWidth - metrics.stringWidth("Game Over")) / 2, screenHeight / 2);
         g.setColor(Color.white);
